@@ -12,6 +12,7 @@ import {
 } from './ContactForm.styled';
 import toast from 'react-hot-toast';
 import { selectContacts } from 'redux/selectors';
+import { checkContact,checkNumber } from 'components/services';
 
 const schema = yup.object().shape({
   name: yup
@@ -21,12 +22,12 @@ const schema = yup.object().shape({
       /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     ),
-  number: yup.string().phone().required(),
+  phone: yup.string().phone().required(),
 });
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 const ContactForm = () => {
@@ -34,12 +35,7 @@ const ContactForm = () => {
   const contacts = useSelector(selectContacts);
 
   const handleSubmit = (values, { resetForm }) => {
-    const checkContact = (contacts, values) => {
-      return contacts.find(contact => contact.name === values.name);
-    };
-    const checkNumber = (contacts, values) => {
-      return contacts.find(contact => contact.number === values.number);
-    };
+   
     if (checkContact(contacts, values)) {
       toast(`${values.name} already exists`, {
         position: 'bottom-center',
@@ -52,7 +48,7 @@ const ContactForm = () => {
       return;
     }
     if (checkNumber(contacts, values)) {
-      toast(`${values.number} already exists`, {
+      toast(`${values.phone} already exists`, {
         position: 'bottom-center',
         style: {
           borderRadius: '10px',
@@ -79,10 +75,10 @@ const ContactForm = () => {
           <ContactInput type="text" name="name" />
           <Error name="name" component="div" />
         </ContactText>
-        <ContactText htmlFor="number">
-          Number
-          <ContactInput type="tel" name="number" placeholder="+380XXXXXXXXX" />
-          <Error name="number" component="div" />
+        <ContactText htmlFor="phone">
+          Phone
+          <ContactInput type="tel" name="phone" placeholder="+380XXXXXXXXX" />
+          <Error name="phone" component="div" />
         </ContactText>
         <ContactFormButton type="submit">Add contact</ContactFormButton>
       </ContactFormWrap>
