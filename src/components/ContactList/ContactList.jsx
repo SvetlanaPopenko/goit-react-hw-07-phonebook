@@ -1,24 +1,24 @@
 import ContactItem from 'components/ContactItem';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { getVisibleContacts } from 'components/service';
 import { ContactsList, ContactItems } from './ContactList.styled';
-import { selectContacts, selectFilter } from 'redux/selectors';
-
+import { selectVisibleContacts } from 'redux/selectors';
 
 const ContactList = () => {
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
-  const visibleContacts = getVisibleContacts(filter, contacts);
+  const visibleContacts = useSelector(selectVisibleContacts);
 
   return (
-    <ContactsList>
-      {visibleContacts.map(({ name, number, id }) => (
-        <ContactItems key={id}>
-          <ContactItem name={name} number={number} />
-        </ContactItems>
-      ))}
-    </ContactsList>
+    <>
+      {visibleContacts.length > 0 && (
+        <ContactsList>
+          {visibleContacts.map(contact => (
+            <ContactItems key={contact.id}>
+              <ContactItem contact={contact} />
+            </ContactItems>
+          ))}
+        </ContactsList>
+      )}
+    </>
   );
 };
 
@@ -27,7 +27,7 @@ ContactList.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      phone: PropTypes.string.isRequired,
     })
   ),
 };
