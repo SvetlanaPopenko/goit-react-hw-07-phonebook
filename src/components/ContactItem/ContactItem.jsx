@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 
 const ContactItem = ({ contact: { name, phone, id } }) => {
   const dispatch = useDispatch();
-    const handleDeleteContact = () => dispatch(deleteContact(id));
-    
+  const handleDeleteContact = () => dispatch(deleteContact(id));
+
   return (
     <>
       <p>

@@ -12,7 +12,7 @@ import {
 } from './ContactForm.styled';
 import toast from 'react-hot-toast';
 import { selectContacts } from 'redux/selectors';
-import { checkContact,checkNumber } from 'components/services';
+import { checkContact, checkNumber } from 'components/services';
 
 const schema = yup.object().shape({
   name: yup
@@ -35,7 +35,6 @@ const ContactForm = () => {
   const contacts = useSelector(selectContacts);
 
   const handleSubmit = (values, { resetForm }) => {
-   
     if (checkContact(contacts, values)) {
       toast(`${values.name} already exists`, {
         position: 'bottom-center',
